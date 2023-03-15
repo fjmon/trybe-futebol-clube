@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
-class Team extends Model {
+export default class Team extends Model {
   declare id: number;
   declare teamName: string;
 }
@@ -34,5 +34,3 @@ Team.init({
 
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
-
-export default Team;
