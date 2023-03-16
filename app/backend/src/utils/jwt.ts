@@ -1,34 +1,25 @@
-import * as jwt
+import { sign, SignOptions }
   from 'jsonwebtoken';
-import * as dotenv
-  from 'dotenv';
-import { IPayload }
-  from '../interfaces';
-
-dotenv.config();
+import 'dotenv/config';
 
 const secret = process.env
   .JWT_SECRET as string;
 
 const geraToken = (
-  user: IPayload,
-): string => {
-  const {
-    id, username, email,
-  } = user;
-  const payload = {
-    id,
-    username,
-    email,
+  payload: unknown,
+  expiresIn = '10d',
+) => {
+  const jwtConfig: SignOptions = {
+    expiresIn,
+    algorithm: 'HS256',
   };
-  return jwt.sign(
-    payload,
-    secret,
 
-    {
-      expiresIn: '1d',
-      algorithm: 'HS256',
-    },
+  const token = sign(
+    { payload },
+    secret,
+    jwtConfig,
   );
+  return token;
 };
+
 export default geraToken;

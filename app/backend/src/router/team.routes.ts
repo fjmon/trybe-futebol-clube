@@ -7,7 +7,9 @@ import TeamController
 
 const routes = Router();
 const teamService = new TeamService();
-const teamController = new TeamController(teamService);
+const teamController = new TeamController(
+  teamService,
+);
 
 routes.get('/', (
   req: Request,
