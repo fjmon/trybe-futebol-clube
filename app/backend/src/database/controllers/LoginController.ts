@@ -20,4 +20,15 @@ class LoginController {
     res.status(status)
       .json(message);
   }
+
+  static getRole(
+    _req: Request,
+    res: Response,
+  ) {
+    const {
+      role,
+    } = res.locals.user.payload;
+    res.status(200)
+      .json({ role });
+  }
 }

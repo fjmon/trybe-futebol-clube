@@ -4,6 +4,8 @@ import loginMiddleware
   from '../middlewares/login.mw';
 import LoginController
   from '../database/controllers/LoginController';
+import tokenMiddleware
+  from '../middlewares/token.mw';
 
 const loginController = new LoginController();
 
@@ -17,6 +19,11 @@ loginRouter.post(
     res: Response,
   ) => loginController
     .login(req, res),
+);
+loginRouter.get(
+  '/role',
+  tokenMiddleware,
+  LoginController.getRole,
 );
 
 export default loginRouter;

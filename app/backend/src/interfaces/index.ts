@@ -1,7 +1,8 @@
-export interface ITeam {
-  id?: number;
-  teamName: string;
-}
+import Match from '../database/models/MatchModel';
+// export interface ITeam {
+//   id?: number;
+//   teamName: string;
+// }
 
 export default interface ITeamService {
   findAll(): Promise<ITeam[]>;
@@ -39,4 +40,19 @@ export interface IRegMatch {
   awayTeamId: number,
   awayTeamGoals: number,
   inProgress: boolean,
+}
+
+export interface IMatch {
+  id?: number | string,
+  homeTeamId?: number,
+  homeTeamGoals: number,
+  awayTeamId?: number,
+  awayTeamGoals: number,
+}
+
+export interface ITeam {
+  id: number,
+  teamName: string,
+  matchesHome?: [Match],
+  matchesAway?: [Match],
 }
