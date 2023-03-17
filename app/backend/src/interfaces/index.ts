@@ -9,7 +9,7 @@ export default interface ITeamService {
   Promise<ITeam | null>;
 }
 
-export interface ILogin {
+export interface ILogin {//
   email: string,
   password: string,
 }
@@ -22,7 +22,21 @@ export interface IPayload {
   username: string;
 }
 
-export interface IResponse {
+export interface IResponse {//
   status: number,
   message: unknown
+}
+
+export interface IUpMatch {
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
+
+export interface IRegMatch {
+  id: number,
+  homeTeamId: number,
+  homeTeamGoals: number,
+  awayTeamId: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
 }

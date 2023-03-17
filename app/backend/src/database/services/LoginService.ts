@@ -12,18 +12,10 @@ export default class LoginService {
     const user = await this.model.findOne(
       { where: { email: body.email } },
     );
-    if (valida(body) || !user || !(
-      bcrypt.compareSync(
-        body.password,
-        user?.password || '_',
-      ))) {
-      return {
-        status: 401,
-        message: {
-          message: 'Invalid email or password',
-        },
-      };
-    }
+    const error = valida(body);
+    const verifypwd = bcrypt.compareSync(body.password, user?.password || '_');
+    if (error || !user
+        || !verifypwd) return { status: 401, message: { message: 'Invalid email or password' } };
     const { id, username, role, email } = user;
     const token = geraToken({ id, username, role, email });
     return { status: 200, message: { token } };

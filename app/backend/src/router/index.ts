@@ -2,6 +2,6 @@
 import teamRouter from './team.routes';
 import loginRouter from './login.routes';
 // import userRouter from './user.routes';
-// import matchRouter from './match.routes';
+import matchRouter from './match.routes';
 
-export { teamRouter, loginRouter };
+export { teamRouter, loginRouter, matchRouter };
