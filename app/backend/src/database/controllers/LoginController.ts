@@ -25,10 +25,8 @@ class LoginController {
     _req: Request,
     res: Response,
   ) {
-    const {
-      role,
-    } = res.locals.user.payload;
     res.status(200)
-      .json({ role });
+      .json(res.locals
+        .user.payload);
   }
 }

@@ -1,5 +1,4 @@
-import { NextFunction, Request, Response }
-  from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
 const jwtSecret = process.env.JWT_SECRET as string;
@@ -23,5 +22,4 @@ const tokenMiddleware = (
       .json({ message: 'Token must be a valid token' });
   }
 };
-
 export default tokenMiddleware;

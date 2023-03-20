@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       team_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        field: 'team_name'
       // },
       // created_at: {
       //   allowNull: false,

@@ -5,19 +5,27 @@ import valida from '../../utils/validador';
 import { ILogin, IResponse } from '../../interfaces';
 import UsersModel from '../models/UserModel';
 
-export default class LoginService {
-  private model: ModelStatic<UsersModel> = UsersModel;
+export default
+class LoginService {
+  private model:
+  ModelStatic<UsersModel> = UsersModel;
 
-  async login(body: ILogin): Promise<IResponse> {
-    const user = await this.model.findOne(
-      { where: { email: body.email } },
-    );
+  async login(body: ILogin):
+  Promise<IResponse> {
+    const local = { where: { email: body.email } };
+    const user = await this.model.findOne(local);
     const error = valida(body);
-    const verifypwd = bcrypt.compareSync(body.password, user?.password || '_');
-    if (error || !user
-        || !verifypwd) return { status: 401, message: { message: 'Invalid email or password' } };
+    const verify = bcrypt
+      .compareSync(body.password, user?.password || '_');
+    if (error || !user || !verify) {
+      return { status: 401,
+        message:
+           { message: 'Invalid email or password' } };
+    }
     const { id, username, role, email } = user;
-    const token = geraToken({ id, username, role, email });
+    const token = geraToken({
+      id, username, role, email,
+    });
     return { status: 200, message: { token } };
   }
 }

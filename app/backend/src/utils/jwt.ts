@@ -13,7 +13,6 @@ const geraToken = (
     expiresIn,
     algorithm: 'HS256',
   };
-
   const token = sign(
     { payload },
     secret,

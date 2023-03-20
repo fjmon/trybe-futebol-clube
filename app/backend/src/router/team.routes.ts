@@ -7,19 +7,11 @@ import TeamController
 
 const routes = Router();
 const teamService = new TeamService();
-const teamController = new TeamController(
-  teamService,
-);
+const teamController = new TeamController(teamService);
 
-routes.get('/', (
-  req: Request,
-  res: Response,
-) => teamController
+routes.get('/', (req: Request, res: Response) => teamController
   .findAll(req, res));
-routes.get('/:id', (
-  req: Request,
-  res: Response,
-) => teamController
+routes.get('/:id', (req: Request, res: Response) => teamController
   .findById(req, res));
 
 export default routes;

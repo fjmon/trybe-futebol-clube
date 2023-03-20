@@ -18,12 +18,14 @@ Team.init({
   teamName: {
     type: DataTypes.STRING,
     allowNull: false,
+    field: 'team_name',
   },
 }, {
   underscored: true,
   sequelize: db,
-  modelName: 'teams',
+  modelName: 'TeamModel',
   timestamps: false,
+  tableName: 'teams',
 });
 
 Match.belongsTo(Team, {
@@ -43,6 +45,12 @@ Team.hasMany(Match, {
   foreignKey: 'awayTeamId',
   as: 'matchesAway',
 });
+
+// Match.belongsTo(Team, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+// Team.hasMany(Match, { foreignKey: 'homeTeamId', as: 'matchesHome' });
+
+// Match.belongsTo(Team, { foreignKey: 'awayTeamId', as: 'awayTeam' });
+// Team.hasMany(Match, { foreignKey: 'awayTeamId', as: 'matchesAway' });
 
 /**
   * `Workaround` para aplicar as associations em TS:

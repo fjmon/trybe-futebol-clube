@@ -3,7 +3,7 @@ import db from '.';
 // import Team from './TeamModel';
 
 export default class Match extends Model {
-  declare id: number;
+  declare readonly id: number;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
   declare awayTeamId: number;
@@ -22,6 +22,7 @@ Match.init(
     homeTeamId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: 'home_team_id',
       references: {
         model: 'teams',
         key: 'id',
@@ -32,6 +33,7 @@ Match.init(
     awayTeamId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: 'away_team_id',
       references: {
         model: 'teams',
         key: 'id',
@@ -42,15 +44,18 @@ Match.init(
     homeTeamGoals: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: 'home_team_goals',
     },
     awayTeamGoals: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: 'away_team_goals',
     },
     inProgress: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
+      field: 'in_progress',
     },
   },
   {
@@ -58,6 +63,7 @@ Match.init(
     timestamps: false,
     underscored: true,
     tableName: 'matches',
+    modelName: 'MatchModel',
   },
 );
 

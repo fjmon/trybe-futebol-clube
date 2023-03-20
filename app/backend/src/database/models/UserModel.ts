@@ -2,7 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import db from '.';
 // isabela costa
 export default class User extends Model {
-  declare id: number;
+  declare readonly id: number;
   declare username: string;
   declare role: string;
   declare email: string;
@@ -40,5 +40,6 @@ User.init(
     timestamps: false,
     tableName: 'users',
     underscored: true,
+    modelName: 'UserModel',
   },
 );

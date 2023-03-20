@@ -13,11 +13,13 @@ implements ITeamService {
 
   public async findAll():
   Promise<ITeam[]> {
-    return this.model.findAll();
+    const teams = await this.model.findAll();
+    return teams;
   }
 
   public async findById(id: number):
   Promise<ITeam | null> {
-    return this.model.findByPk(id);
+    const teamsId = await this.model.findByPk(id);
+    return teamsId;
   }
 }
