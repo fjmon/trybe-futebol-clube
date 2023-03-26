@@ -1,9 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
-import { verify } from 'jsonwebtoken';
+import { NextFunction, Request, Response }
+  from 'express';
+import jwt = require ('jsonwebtoken');
 
-const jwtSecret = process.env.JWT_SECRET as string;
+const jwtSecret = process.env
+  .JWT_SECRET as string
+|| 'seusecretdetoken';
 
-const tokenMiddleware = (
+const tokenMw = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -11,15 +14,16 @@ const tokenMiddleware = (
   try {
     const token = req.headers.authorization;
     if (!token) {
-      return res.status(401)
-        .json({ message: 'Token not found' });
+      return res.status(401).json({
+        message: 'Token not found' });
     }
-    const decoded = verify(token, jwtSecret);
+    const decoded = jwt.verify(token, jwtSecret);
     res.locals.user = decoded;
     next();
-  } catch (err) {
+  } catch (e) {
     return res.status(401)
-      .json({ message: 'Token must be a valid token' });
+      .json({
+        message: 'Token must be a valid token' });
   }
 };
-export default tokenMiddleware;
+export default tokenMw;

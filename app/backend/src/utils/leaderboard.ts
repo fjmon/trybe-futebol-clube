@@ -1,80 +1,79 @@
-import { IMatch, ITeam } from '../interfaces';
+import { ITeam, IMatch }
+  from '../interfaces';
 
-export default class LeaderBoard {
-  public name: string;
-  public totalPoints = 0;
-  public totalGames = 0;
-  public totalVictories = 0;
-  public totalDraws = 0;
-  public totalLosses = 0;
-  public goalsFavor = 0;
-  public goalsOwn = 0;
-  public goalsBalance = 0;
-  public efficiency = 100.00;
+export default
+class LeaderBoard {
+  name: string;
+  totalPoints = 0;
+  totalGames = 0;
+  totalVictories = 0;
+  totalDraws = 0;
+  totalLosses = 0;
+  goalsFavor = 0;
+  goalsOwn = 0;
+  goalsBalance = 0;
+  efficiency = 100.00;
 
   constructor(team: ITeam) {
-    this.name = team.teamName;
     this.resolveLeaderboard(team);
+    this.name = team.teamName;
   }
 
-  public winner() {
-    this.totalVictories += 1;
-    this.totalPoints += 3;
-  }
-
-  public draw() {
-    this.totalDraws += 1;
+  draw() {
     this.totalPoints += 1;
+    this.totalDraws += 1;
   }
 
-  public loser() {
-    this.totalLosses += 1;
+  winner() {
+    this.totalPoints += 3;
+    this.totalVictories += 1;
   }
 
-  public balance() {
-    this.goalsBalance = this.goalsFavor - this.goalsOwn;
+  getEfficiency() {
+    const efficiency = Number(
+      ((
+        this.totalPoints / (this.totalGames * 3)
+      ) * 100)
+        .toFixed(2),
+    );
+    return efficiency;
   }
 
-  public goals(matches: IMatch[], local: boolean) {
-    if (local) {
-      matches.forEach((match) => {
-        this.goalsFavor += match.homeTeamGoals;
-        this.goalsOwn += match.awayTeamGoals;
-        this.balance();
-      });
-    }
-
+  goals(matches: IMatch[], local: boolean) {
     if (!local) {
       matches.forEach((match) => {
-        this.goalsFavor += match.awayTeamGoals;
         this.goalsOwn += match.homeTeamGoals;
-        this.balance();
+        this.goalsFavor += match.awayTeamGoals;
+        this.goalsBalance = this
+          .goalsFavor - this.goalsOwn;
+      });
+    } else {
+      matches.forEach((match) => {
+        this.goalsOwn += match.awayTeamGoals;
+        this.goalsFavor += match.homeTeamGoals;
+        this.goalsBalance = this
+          .goalsFavor - this.goalsOwn;
       });
     }
   }
 
-  public getEfficiency() {
-    if (!this.totalGames) return 100;
-    return +((this.totalPoints / (this.totalGames * 3)) * 100).toFixed(2);
-  }
-
-  public resolveLeaderboard(team: ITeam) {
-    if (team.matchesHome) {
-      this.totalGames += team.matchesHome.length;
-      this.goals(team.matchesHome, true);
-      team.matchesHome.forEach((match) => {
-        if (match.homeTeamGoals > match.awayTeamGoals) this.winner();
-        else if (match.homeTeamGoals < match.awayTeamGoals) this.loser();
-        else this.draw();
-      });
-    }
-
+  resolveLeaderboard(team: ITeam) {
     if (team.matchesAway) {
       this.totalGames += team.matchesAway.length;
       this.goals(team.matchesAway, false);
       team.matchesAway.forEach((match) => {
-        if (match.awayTeamGoals > match.homeTeamGoals) this.winner();
-        else if (match.awayTeamGoals < match.homeTeamGoals) this.loser();
+        if (match.awayTeamGoals < match.homeTeamGoals) this.totalLosses += 1;
+        else if (match.awayTeamGoals > match.homeTeamGoals) this.winner();
+        else this.draw();
+      });
+    }
+
+    if (team.matchesHome) {
+      this.totalGames += team.matchesHome.length;
+      this.goals(team.matchesHome, true);
+      team.matchesHome.forEach((match) => {
+        if (match.homeTeamGoals < match.awayTeamGoals) this.totalLosses += 1;
+        else if (match.homeTeamGoals > match.awayTeamGoals) this.winner();
         else this.draw();
       });
     } this.efficiency = this.getEfficiency();

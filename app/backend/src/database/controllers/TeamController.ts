@@ -18,7 +18,8 @@ class TeamController {
     res: Response,
   ) {
     return res.status(200)
-      .json(await this._service.findAll());
+      .json(await this._service
+        .findAll());
   }
 
   public async findById(
@@ -27,6 +28,7 @@ class TeamController {
   ) {
     const { id } = req.params;
     return res.status(200)
-      .json(await this._service.findById(+id));
+      .json(await this._service
+        .findById(Number(id)));
   }
 }

@@ -1,9 +1,12 @@
 import Match
   from '../database/models/MatchModel';
-// export interface ITeam {
-//   id?: number;
-//   teamName: string;
-// }
+
+export interface ITeam {
+  id: number,
+  teamName: string,
+  matchesHome?: [Match],
+  matchesAway?: [Match],
+}
 
 export default
 interface ITeamService {
@@ -17,13 +20,13 @@ export interface ILogin {
   password: string,
 }
 
-export interface IPayload {
-  id: number;
-  email: string;
-  password: string;
-  role: string;
-  username: string;
-}
+// export interface IPayload {
+//   id: number;
+//   email: string;
+//   password: string;
+//   role: string;
+//   username: string;
+// }
 
 export interface IResponse {
   status: number,
@@ -50,11 +53,4 @@ export interface IMatch {
   homeTeamGoals: number,
   awayTeamId?: number,
   awayTeamGoals: number,
-}
-
-export interface ITeam {
-  id: number,
-  teamName: string,
-  matchesHome?: [Match],
-  matchesAway?: [Match],
 }

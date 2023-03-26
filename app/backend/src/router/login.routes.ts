@@ -1,10 +1,10 @@
 import { Request, Response, Router }
   from 'express';
-import loginMiddleware
+import loginMw
   from '../middlewares/login.mw';
 import LoginController
   from '../database/controllers/LoginController';
-import tokenMiddleware
+import tokenMw
   from '../middlewares/token.mw';
 
 const loginController = new LoginController();
@@ -13,7 +13,7 @@ const loginRouter = Router();
 
 loginRouter.post(
   '/',
-  loginMiddleware,
+  loginMw,
   (
     req: Request,
     res: Response,
@@ -22,7 +22,7 @@ loginRouter.post(
 );
 loginRouter.get(
   '/role',
-  tokenMiddleware,
+  tokenMw,
   LoginController.getRole,
 );
 

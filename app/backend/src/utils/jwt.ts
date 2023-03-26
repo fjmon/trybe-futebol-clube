@@ -3,20 +3,21 @@ import { sign, SignOptions }
 import 'dotenv/config';
 
 const secret = process.env
-  .JWT_SECRET as string;
+  .JWT_SECRET as string
+  || 'seusecretdetoken';
 
 const geraToken = (
   payload: unknown,
-  expiresIn = '10d',
+  expiresIn = '7d',
 ) => {
-  const jwtConfig: SignOptions = {
+  const jwtC: SignOptions = {
     expiresIn,
     algorithm: 'HS256',
   };
   const token = sign(
     { payload },
     secret,
-    jwtConfig,
+    jwtC,
   );
   return token;
 };

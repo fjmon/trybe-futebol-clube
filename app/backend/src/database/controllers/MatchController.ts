@@ -1,18 +1,30 @@
-import { Request, Response } from 'express';
-import MatchesService from '../services/MatchService';
+import { Request, Response }
+  from 'express';
+import MatchesService
+  from '../services/MatchService';
 
-export default class MatchesController {
+export default
+class MatchesController {
   constructor(
-    private matchesService = new MatchesService(),
+    private matchesService = new
+    MatchesService(),
   ) {}
 
   async getAll(req: Request, res: Response) {
     const { inProgress } = req.query;
+    if (!inProgress) {
+      const {
+        status, message,
+      } = await this.matchesService
+        .getAll();
+      return res.status(status).json(message);
+    }
+    const alt = inProgress === 'true';
     const {
       status, message,
     } = await this.matchesService
-      .get(inProgress as string);
-    res.status(status).json(message);
+      .getProgress(alt);
+    return res.status(status).json(message);
   }
 
   async endMatch(req: Request, res: Response) {
@@ -20,20 +32,25 @@ export default class MatchesController {
     const {
       status, message,
     } = await this.matchesService
-      .endMatch(+id);
-    res.status(status).json(message);
+      .endMatch(Number(id));
+    res.status(status).json({ message });
   }
 
-  async updateMatch(req: Request, res: Response) {
+  async upMatch(req: Request, res: Response) {
     const { id } = req.params;
     const {
       status, message,
     } = await this.matchesService
-      .updateMatch(parseInt(id, 10), req.body);
-    res.status(status).json(message);
+      .upMatch(parseInt(id, 10), req.body);
+    res.status(status).json({ message });
   }
 
   async registerMatch(req: Request, res: Response) {
+    if (req.body.homeTeamId === req.body.awayTeamId) {
+      return res.status(422).json({
+        message: 'It is not possible to create a match with two equal teams',
+      });
+    }
     const {
       status, message,
     } = await this.matchesService
