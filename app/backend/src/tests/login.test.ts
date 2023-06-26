@@ -37,6 +37,7 @@ describe('Testa "/login"', () => {
 
   it('Verifica se email incorreto não loga', async () => {
     sinon.stub(UserModel, 'findOne').resolves(null);
+    
     const { body, status } = await chai.request(app).post('/login').send(loginMock.wrongEmail);
     expect(body).to.deep.eq({ message: "Invalid email or password" });
     expect(status).to.be.eq(401);

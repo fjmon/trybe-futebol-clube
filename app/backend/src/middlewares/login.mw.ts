@@ -6,9 +6,6 @@ const loginMw = (
   res: Response,
   next: NextFunction,
 ) => {
-  // const {
-  //   email, password,
-  // } = req.body;
   if (!req.body.password || !req.body.email) {
     return res.status(400)
       .json({

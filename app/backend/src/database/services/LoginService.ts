@@ -18,6 +18,7 @@ class LoginService {
     if (!emailRegex.test(body.email)) return response;
     if (body.password.length < 6) return response;
     const local = { where: { email: body.email } };
+   
     const user = await this.model.findOne(local);
     if (!user) return response;
     if (!await bcrypt.compare(body.password, user.password)) return response;
